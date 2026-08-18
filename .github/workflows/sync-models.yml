@@ -1,0 +1,47 @@
+name: Sync models
+
+on:
+  schedule:
+    # Run every 6 hours — Command Code ships models frequently.
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Sync models
+        run: bun run sync
+
+      - name: Regenerate README
+        run: bun run generate-readme
+
+      - name: Check for changes
+        id: check
+        run: |
+          if git diff --quiet models.json README.md; then
+            echo "No model changes"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add models.json README.md
+          git commit -m "chore: sync models from command-code CLI"
+          git push
