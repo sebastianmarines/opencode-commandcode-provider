@@ -40,6 +40,7 @@ interface SnEntry {
   reasoning?: boolean
   reasoningEfforts?: string[]
   contextWindow?: number
+  hidden?: boolean
 }
 
 const FALLBACK_COSTS: Record<string, { input: number; output: number; cache_read?: number; cache_write?: number }> = {
@@ -123,7 +124,7 @@ async function fetchLatestBundle(): Promise<{ source: string; version: string }>
   console.log("Extracting...")
   execSync(`tar -xzf "${tgzPath}" -C "${TMP_DIR}"`, { stdio: "pipe" })
 
-  const bundlePath = join(TMP_DIR, "package", "dist", "index.mjs")
+  const bundlePath = join(TMP_DIR, "package", "dist", "cli.mjs")
   if (!existsSync(bundlePath)) throw new Error(`Bundle not found at ${bundlePath}`)
 
   const source = readFileSync(bundlePath, "utf-8")
@@ -189,21 +190,48 @@ function extractSpecConstants(source: string): { chatComplete: string; responses
   }
 }
 
+function extractConsts(source: string): Record<string, string> {
+  const anchorIdx = source.indexOf('SONNET_5:{id:')
+  if (anchorIdx < 0) throw new Error("Could not find model catalog anchor")
+
+  const before = source.slice(Math.max(0, anchorIdx - 30000), anchorIdx)
+
+  const consts: Record<string, string> = {}
+  const stringRe = /([A-Za-z_$][A-Za-z0-9_$]*)=\"([^\"]*)\"/g
+  let m: RegExpExecArray | null
+  while ((m = stringRe.exec(before))) {
+    const [, name, value] = m
+    if (name && value) consts[name] = value
+  }
+
+  const aliasRe = /([A-Za-z_$][A-Za-z0-9_$]*)=([A-Za-z_$][A-Za-z0-9_$]*)/g
+  let resolved = true
+  while (resolved) {
+    resolved = false
+    while ((m = aliasRe.exec(before))) {
+      const [, name, target] = m
+      if (name && target && consts[target] && !consts[name]) {
+        consts[name] = consts[target]
+        resolved = true
+      }
+    }
+    aliasRe.lastIndex = 0
+  }
+
+  return consts
+}
+
 function extractModelCatalog(
   source: string,
-  wt: Record<string, string>,
-  wtName: string,
-  spec: ReturnType<typeof extractSpecConstants>,
+  consts: Record<string, string>,
 ): Record<string, SnEntry> {
-  const raw = findBalancedObject(source, 'SONNET_4_6:{id:"claude-sonnet-4-6"')
-  const ctx: Record<string, unknown> = { [wtName]: wt }
-  ctx[spec.chatComplete] = "chatComplete"
-  ctx[spec.responses] = "responses"
-  if (spec.qt) ctx[spec.qt] = wt.VERCEL_AI_GATEWAY
+  const raw = findBalancedObject(source, 'SONNET_5:{id:')
+  const ctx: Record<string, unknown> = { ...consts }
+  ctx.isLingFlashFreeEnded = () => true
   return evaluateWithContext(normalizeForEval(raw), ctx)
 }
 
-function extractCostData(source: string, wt: Record<string, string>, wtName: string): Record<string, CostEntry[]> {
+function extractCostData(source: string, consts: Record<string, string>): Record<string, CostEntry[]> {
   const anchor = '{id:"anthropic:claude-sonnet-4-'
   const anchorIdx = source.indexOf(anchor)
   if (anchorIdx < 0) throw new Error("Could not find cost data anchor")
@@ -229,18 +257,11 @@ function extractCostData(source: string, wt: Record<string, string>, wtName: str
   }
 
   const raw = source.slice(start, end + 1)
-  return evaluateWithContext(normalizeForEval(raw), { [wtName]: wt }) as Record<string, CostEntry[]>
+  return evaluateWithContext(normalizeForEval(raw), consts) as Record<string, CostEntry[]>
 }
 
 function getWtVarName(source: string): string {
-  const idx = source.indexOf('ANTHROPIC:"anthropic"')
-  if (idx < 0) throw new Error("Could not find Wt enum")
-  const before = source.slice(Math.max(0, idx - 50), idx)
-  const match = before.match(/\(([A-Za-z_$]+)=\{$/)
-  if (match) return match[1]
-  const match2 = before.match(/([A-Za-z_$]+)=\{$/)
-  if (match2) return match2[1]
-  throw new Error("Could not determine Wt variable name")
+  return ""
 }
 
 function normalizeForEval(code: string): string {
@@ -394,28 +415,27 @@ async function main() {
   const { source, version } = await fetchLatestBundle()
   console.log(`Read CLI bundle v${version} (${(source.length / 1024).toFixed(0)} KB)`)
 
-  console.log("Extracting provider enum (Wt)...")
-  const wt = extractWt(source)
-  const wtName = getWtVarName(source)
-  console.log(`  Provider enum var: ${wtName}, keys: ${Object.keys(wt).join(", ")}`)
-
-  console.log("Extracting spec constants...")
-  const spec = extractSpecConstants(source)
-  console.log(`  chatComplete=${spec.chatComplete}, responses=${spec.responses}, qt=${spec.qt || "(none)"}`)
+  console.log("Extracting string consts...")
+  const consts = extractConsts(source)
+  console.log(`  Found ${Object.keys(consts).length} consts: ${Object.keys(consts).slice(0, 15).join(", ")}...`)
 
   console.log("Extracting model catalog...")
-  const models = extractModelCatalog(source, wt, wtName, spec)
+  const models = extractModelCatalog(source, consts)
   const modelCount = Object.keys(models).length
   console.log(`  Found ${modelCount} models`)
 
   console.log("Extracting cost data...")
-  const costs = extractCostData(source, wt, wtName)
+  const costs = extractCostData(source, consts)
   const costMap = buildCostMap(costs)
   console.log(`  Found ${costMap.size} cost entries`)
 
   const entries: ModelEntry[] = []
 
   for (const [, model] of Object.entries(models)) {
+    if (model.hidden) {
+      console.warn(`  Skipping hidden: ${model.id} (${model.name})`)
+      continue
+    }
     const entry = buildModelEntry(model, costMap)
     if (entry) {
       entries.push(entry)

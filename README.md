@@ -60,21 +60,29 @@ COMMANDCODE_API_KEY=your-key opencode
 
 | Model ID | Name | Tier | Reasoning | Context |
 |---|---|---|---|---|
+| `claude-fable-5`                           | Claude Fable 5              | premium      | yes | 1M     |
 | `claude-haiku-4-5-20251001`                | Claude Haiku 4.5            | premium      | no  | 200K   |
 | `claude-opus-4-7`                          | Claude Opus 4.7             | premium      | yes | 1M     |
+| `claude-opus-4-8`                          | Claude Opus 4.8             | premium      | yes | 1M     |
+| `claude-opus-5`                            | Claude Opus 5               | premium      | yes | 1M     |
 | `claude-sonnet-4-6`                        | Claude Sonnet 4.6           | premium      | yes | 1M     |
+| `claude-sonnet-5`                          | Claude Sonnet 5             | premium      | yes | 1M     |
 | `gpt-5.3-codex`                            | GPT-5.3 Codex               | premium      | yes | 400K   |
 | `gpt-5.4`                                  | GPT-5.4                     | premium      | yes | 400K   |
 | `gpt-5.4-mini`                             | GPT-5.4 Mini                | premium      | yes | 400K   |
 | `gpt-5.5`                                  | GPT-5.5                     | premium      | yes | 256K   |
-| `deepseek/deepseek-v4-flash`               | DeepSeek V4 Flash           | open-source  | yes | 1M     |
-| `deepseek/deepseek-v4-pro`                 | DeepSeek V4 Pro             | open-source  | yes | 1M     |
+| `deepseek/deepseek-v4-flash`               | DeepSeek V4 Flash (latest)  | open-source  | yes | 1M     |
+| `deepseek/deepseek-v4-pro`                 | DeepSeek V4 Pro (latest)    | open-source  | yes | 1M     |
 | `google/gemini-3.1-flash-lite`             | Gemini 3.1 Flash Lite       | open-source  | yes | 1M     |
 | `google/gemini-3.5-flash`                  | Gemini 3.5 Flash            | open-source  | yes | 1M     |
 | `zai-org/GLM-5`                            | GLM-5                       | open-source  | no  | 200K   |
 | `zai-org/GLM-5.1`                          | GLM-5.1                     | open-source  | no  | 200K   |
+| `gpt-5.6-luna`                             | GPT-5.6 Luna                | open-source  | yes | 1M     |
+| `gpt-5.6-sol`                              | GPT-5.6 Sol                 | open-source  | yes | 1M     |
+| `gpt-5.6-terra`                            | GPT-5.6 Terra               | open-source  | yes | 1M     |
 | `moonshotai/Kimi-K2.5`                     | Kimi K2.5                   | open-source  | no  | 256K   |
 | `moonshotai/Kimi-K2.6`                     | Kimi K2.6                   | open-source  | no  | 256K   |
+| `moonshotai/Kimi-K3`                       | Kimi K3                     | open-source  | yes | 1M     |
 | `MiniMaxAI/MiniMax-M2.5`                   | MiniMax M2.5                | open-source  | no  | 200K   |
 | `MiniMaxAI/MiniMax-M2.7`                   | MiniMax M2.7                | open-source  | no  | 1M     |
 | `Qwen/Qwen3.6-Max-Preview`                 | Qwen 3.6 Max Preview        | open-source  | yes | 1M     |
