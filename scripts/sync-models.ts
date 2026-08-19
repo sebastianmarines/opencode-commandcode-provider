@@ -30,6 +30,14 @@ interface CostEntry {
   cacheHitCost: number
 }
 
+interface NewCostEntry {
+  id: string
+  promptCost: number
+  completionCost: number
+  cacheReadCost?: number
+  cacheWriteCost?: number
+}
+
 interface SnEntry {
   id: string
   provider: string
@@ -41,6 +49,28 @@ interface SnEntry {
   reasoningEfforts?: string[]
   contextWindow?: number
   hidden?: boolean
+}
+
+interface PricingProvider {
+  slug: string
+  promptCost: number
+  completionCost: number
+  cacheReadCost?: number
+  cacheWriteCost?: number
+}
+
+interface PricingEntry {
+  canonicalId: string
+  gatewaySlug?: string
+  order?: string[]
+  providers: Record<string, PricingProvider>
+}
+
+interface PricedCost {
+  input: number
+  output: number
+  cache_read?: number
+  cache_write?: number
 }
 
 const FALLBACK_COSTS: Record<string, { input: number; output: number; cache_read?: number; cache_write?: number }> = {
@@ -260,6 +290,59 @@ function extractCostData(source: string, consts: Record<string, string>): Record
   return evaluateWithContext(normalizeForEval(raw), consts) as Record<string, CostEntry[]>
 }
 
+function extractArrayPricing(source: string, anchor: string, consts: Record<string, string>): PricingEntry[] {
+  const anchorIdx = source.indexOf(anchor)
+  if (anchorIdx < 0) return []
+
+  const bracketIdx = anchorIdx + anchor.indexOf("[")
+  let depth = 0
+  let end = bracketIdx
+  for (; end < source.length; end++) {
+    if (source[end] === "[") depth++
+    else if (source[end] === "]") {
+      depth--
+      if (depth === 0) break
+    }
+  }
+
+  const raw = source.slice(bracketIdx + 1, end)
+
+  const ctx: Record<string, unknown> = { ...consts }
+  const ctxWindow = source.slice(Math.max(0, anchorIdx - 1000), anchorIdx + 300)
+  const tRMatch = ctxWindow.match(/tR\s*=\s*"([^"]+)"/)
+  if (tRMatch) ctx.tR = tRMatch[1]
+  const nRMatch = ctxWindow.match(/nR\s*=\s*\[(.*?)\]/)
+  if (nRMatch) {
+    ctx.nR = evaluateWithContext(normalizeForEval(nRMatch[0].replace(/^nR\s*=/, "")), {})
+  }
+
+  return evaluateWithContext(normalizeForEval(`[${raw}]`), ctx) as PricingEntry[]
+}
+
+function extractNewCostData(source: string, consts: Record<string, string>): PricingEntry[] {
+  return [
+    ...extractArrayPricing(source, "rR=[{canonicalId:", consts),
+    ...extractArrayPricing(source, "aR=[{canonicalId:", consts),
+  ]
+}
+
+function normalizePricing(entry: PricingEntry): NewCostEntry {
+  const providers = Object.values(entry.providers).filter((p) => p.promptCost !== undefined)
+  const sorted = providers.sort((a, b) => {
+    const ca = a.promptCost + a.completionCost
+    const cb = b.promptCost + b.completionCost
+    return ca - cb
+  })
+  const pick = sorted[0]
+  return {
+    id: entry.canonicalId,
+    promptCost: pick.promptCost,
+    completionCost: pick.completionCost,
+    cacheReadCost: pick.cacheReadCost,
+    cacheWriteCost: pick.cacheWriteCost,
+  }
+}
+
 function getWtVarName(source: string): string {
   return ""
 }
@@ -273,13 +356,31 @@ function normalizeForEval(code: string): string {
     )
 }
 
-function buildCostMap(costs: Record<string, CostEntry[]>): Map<string, CostEntry> {
-  const map = new Map<string, CostEntry>()
+function buildCostMap(
+  costs: Record<string, CostEntry[]>,
+  newCosts: NewCostEntry[],
+): Map<string, { promptCost: number; completionCost: number; cacheReadCost?: number; cacheWriteCost?: number }> {
+  const map = new Map<string, { promptCost: number; completionCost: number; cacheReadCost?: number; cacheWriteCost?: number }>()
   for (const arr of Object.values(costs)) {
     for (const entry of arr) {
       const colonIdx = entry.id.indexOf(":")
       const bareId = colonIdx >= 0 ? entry.id.slice(colonIdx + 1) : entry.id
-      map.set(bareId, entry)
+      map.set(bareId, {
+        promptCost: entry.promptCost,
+        completionCost: entry.completionCost,
+        cacheReadCost: entry.cacheHitCost > 0 ? entry.cacheHitCost : undefined,
+        cacheWriteCost: entry.cacheWrite5mCost > 0 ? entry.cacheWrite5mCost : undefined,
+      })
+    }
+  }
+  for (const entry of newCosts) {
+    if (!map.has(entry.id)) {
+      map.set(entry.id, {
+        promptCost: entry.promptCost,
+        completionCost: entry.completionCost,
+        cacheReadCost: entry.cacheReadCost,
+        cacheWriteCost: entry.cacheWriteCost,
+      })
     }
   }
   return map
@@ -287,7 +388,7 @@ function buildCostMap(costs: Record<string, CostEntry[]>): Map<string, CostEntry
 
 function buildModelEntry(
   entry: SnEntry,
-  costMap: Map<string, CostEntry>,
+  costMap: Map<string, { promptCost: number; completionCost: number; cacheReadCost?: number; cacheWriteCost?: number }>,
 ): ModelEntry | null {
   const provider = entry.provider || "unknown"
   const tier = TIER_MAP[provider] ?? "open-source"
@@ -299,8 +400,8 @@ function buildModelEntry(
       input: costEntry.promptCost,
       output: costEntry.completionCost,
     }
-    if (costEntry.cacheHitCost > 0) cost.cache_read = costEntry.cacheHitCost
-    if (costEntry.cacheWrite5mCost > 0) cost.cache_write = costEntry.cacheWrite5mCost
+    if (costEntry.cacheReadCost && costEntry.cacheReadCost > 0) cost.cache_read = costEntry.cacheReadCost
+    if (costEntry.cacheWriteCost && costEntry.cacheWriteCost > 0) cost.cache_write = costEntry.cacheWriteCost
   } else {
     const fallback = FALLBACK_COSTS[entry.id]
     if (!fallback) return null
@@ -426,8 +527,14 @@ async function main() {
 
   console.log("Extracting cost data...")
   const costs = extractCostData(source, consts)
-  const costMap = buildCostMap(costs)
-  console.log(`  Found ${costMap.size} cost entries`)
+  console.log(`  Found ${Object.values(costs).flat().length} legacy cost entries`)
+
+  console.log("Extracting new cost data...")
+  const newCosts = extractNewCostData(source, consts).map(normalizePricing)
+  console.log(`  Found ${newCosts.length} new cost entries`)
+
+  const costMap = buildCostMap(costs, newCosts)
+  console.log(`  Total: ${costMap.size} cost entries`)
 
   const entries: ModelEntry[] = []
 
