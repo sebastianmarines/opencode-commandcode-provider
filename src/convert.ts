@@ -59,6 +59,7 @@ interface CCRequestEnvelope {
     temperature?: number
     top_p?: number
     top_k?: number
+    reasoning_effort?: string
   }
 }
 
@@ -199,6 +200,15 @@ export function buildRequest(
   if (options.temperature !== undefined) params.temperature = options.temperature
   if (options.topP !== undefined) params.top_p = options.topP
   if (options.topK !== undefined) params.top_k = options.topK
+
+  const providerOpts = options.providerOptions
+  if (providerOpts) {
+    const ccOpts = providerOpts.commandcode ?? providerOpts["commandcode-go-opencode-provider"]
+    const effort = ccOpts?.reasoningEffort
+    if (typeof effort === "string" && effort.length > 0) {
+      params.reasoning_effort = effort
+    }
+  }
 
   return {
     config: {

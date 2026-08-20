@@ -9,6 +9,7 @@ interface ModelEntry {
   name: string
   tier: "premium" | "open-source"
   reasoning: boolean
+  reasoningEfforts?: string[]
   tool_call: boolean
   cost: { input: number; output: number; cache_read?: number; cache_write?: number }
   limit: { context: number; output: number }
@@ -55,6 +56,13 @@ export default async function commandcodePlugin() {
             tool_call: entry.tool_call,
             cost: costObj,
             limit: entry.limit,
+            ...(entry.reasoningEfforts && entry.reasoningEfforts.length > 0
+              ? {
+                  variants: Object.fromEntries(
+                    entry.reasoningEfforts.map((effort) => [effort, { reasoningEffort: effort }]),
+                  ),
+                }
+              : {}),
           }
         }
         cc.models = modelsObj

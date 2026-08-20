@@ -14,6 +14,7 @@ interface ModelEntry {
   name: string
   tier: "premium" | "open-source"
   reasoning: boolean
+  reasoningEfforts?: string[]
   tool_call: boolean
   cost: { input: number; output: number; cache_read?: number; cache_write?: number }
   limit: { context: number; output: number }
@@ -290,11 +291,14 @@ function extractCostData(source: string, consts: Record<string, string>): Record
   return evaluateWithContext(normalizeForEval(raw), consts) as Record<string, CostEntry[]>
 }
 
-function extractArrayPricing(source: string, anchor: string, consts: Record<string, string>): PricingEntry[] {
-  const anchorIdx = source.indexOf(anchor)
-  if (anchorIdx < 0) return []
+function extractArrayPricing(
+  source: string,
+  anchorIdx: number,
+  consts: Record<string, string>,
+): PricingEntry[] {
+  const bracketIdx = source.indexOf("[", anchorIdx)
+  if (bracketIdx < 0) return []
 
-  const bracketIdx = anchorIdx + anchor.indexOf("[")
   let depth = 0
   let end = bracketIdx
   for (; end < source.length; end++) {
@@ -308,22 +312,26 @@ function extractArrayPricing(source: string, anchor: string, consts: Record<stri
   const raw = source.slice(bracketIdx + 1, end)
 
   const ctx: Record<string, unknown> = { ...consts }
-  const ctxWindow = source.slice(Math.max(0, anchorIdx - 1000), anchorIdx + 300)
-  const tRMatch = ctxWindow.match(/tR\s*=\s*"([^"]+)"/)
-  if (tRMatch) ctx.tR = tRMatch[1]
-  const nRMatch = ctxWindow.match(/nR\s*=\s*\[(.*?)\]/)
-  if (nRMatch) {
-    ctx.nR = evaluateWithContext(normalizeForEval(nRMatch[0].replace(/^nR\s*=/, "")), {})
+  const ctxWindow = source.slice(Math.max(0, anchorIdx - 1500), anchorIdx + 300)
+  const dateMatch = ctxWindow.match(/([A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*"(\d{4}-\d{2}-\d{2}T[^"]+)"/)
+  if (dateMatch) ctx[dateMatch[1]] = dateMatch[2]
+  const windowMatch = ctxWindow.match(/([A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*\[(\{startHourUtc:[^\]]*)\]/, "s")
+  if (windowMatch) {
+    ctx[windowMatch[1]] = evaluateWithContext(normalizeForEval(`[${windowMatch[2]}]`), {})
   }
 
   return evaluateWithContext(normalizeForEval(`[${raw}]`), ctx) as PricingEntry[]
 }
 
 function extractNewCostData(source: string, consts: Record<string, string>): PricingEntry[] {
-  return [
-    ...extractArrayPricing(source, "rR=[{canonicalId:", consts),
-    ...extractArrayPricing(source, "aR=[{canonicalId:", consts),
-  ]
+  const results: PricingEntry[] = []
+  const re = /=\s*\[\{canonicalId:"[^"]+",(?:gatewaySlug|openrouterSlug):/g
+  let m: RegExpExecArray | null
+  while ((m = re.exec(source))) {
+    const anchorIdx = m.index + 1
+    results.push(...extractArrayPricing(source, anchorIdx, consts))
+  }
+  return results
 }
 
 function normalizePricing(entry: PricingEntry): NewCostEntry {
@@ -417,6 +425,7 @@ function buildModelEntry(
     name: entry.name,
     tier,
     reasoning: entry.reasoning || (entry.reasoningEfforts?.length ?? 0) > 0,
+    reasoningEfforts: entry.reasoningEfforts,
     tool_call: true,
     cost,
     limit,
@@ -444,6 +453,13 @@ function generateOpencodeModels(entries: ModelEntry[]): Record<string, unknown> 
       tool_call: entry.tool_call,
       cost: costObj,
       limit: entry.limit,
+      ...(entry.reasoningEfforts && entry.reasoningEfforts.length > 0
+        ? {
+            variants: Object.fromEntries(
+              entry.reasoningEfforts.map((effort) => [effort, { reasoningEffort: effort }]),
+            ),
+          }
+        : {}),
     }
   }
   return models

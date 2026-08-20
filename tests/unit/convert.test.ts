@@ -211,6 +211,35 @@ test("passes through temperature, topP, topK", () => {
   expect(req.params.top_k).toBe(40)
 })
 
+test("maps reasoningEffort from providerOptions.commandcode", () => {
+  const req = buildRequest("m", makeOpts({
+    prompt: [{ role: "user", content: "hi" }],
+    providerOptions: { commandcode: { reasoningEffort: "high" } },
+  }))
+  expect(req.params.reasoning_effort).toBe("high")
+})
+
+test("maps reasoningEffort from providerOptions under package name", () => {
+  const req = buildRequest("m", makeOpts({
+    prompt: [{ role: "user", content: "hi" }],
+    providerOptions: { "commandcode-go-opencode-provider": { reasoningEffort: "max" } },
+  }))
+  expect(req.params.reasoning_effort).toBe("max")
+})
+
+test("omits reasoning_effort when not configured", () => {
+  const req = buildRequest("m", makeOpts({ prompt: [{ role: "user", content: "hi" }] }))
+  expect(req.params.reasoning_effort).toBeUndefined()
+})
+
+test("omits reasoning_effort for empty effort value", () => {
+  const req = buildRequest("m", makeOpts({
+    prompt: [{ role: "user", content: "hi" }],
+    providerOptions: { commandcode: { reasoningEffort: "" } },
+  }))
+  expect(req.params.reasoning_effort).toBeUndefined()
+})
+
 test("defaults max_tokens to 16384 when not provided", () => {
   const req = buildRequest("m", makeOpts({ maxOutputTokens: undefined }))
   expect(req.params.max_tokens).toBe(16384)

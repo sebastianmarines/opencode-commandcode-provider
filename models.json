@@ -4,6 +4,13 @@
     "name": "Claude Fable 5",
     "tier": "premium",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 10,
@@ -38,6 +45,13 @@
     "name": "Claude Opus 4.7",
     "tier": "premium",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 5,
@@ -55,6 +69,13 @@
     "name": "Claude Opus 4.8",
     "tier": "premium",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 5,
@@ -72,6 +93,13 @@
     "name": "Claude Opus 5",
     "tier": "premium",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 5,
@@ -89,6 +117,13 @@
     "name": "Claude Sonnet 4.6",
     "tier": "premium",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 3,
@@ -106,6 +141,13 @@
     "name": "Claude Sonnet 5",
     "tier": "premium",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2,
@@ -123,6 +165,12 @@
     "name": "GPT-5.3 Codex",
     "tier": "premium",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2,
@@ -139,6 +187,12 @@
     "name": "GPT-5.4",
     "tier": "premium",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2.5,
@@ -155,6 +209,11 @@
     "name": "GPT-5.4 Mini",
     "tier": "premium",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.75,
@@ -171,6 +230,12 @@
     "name": "GPT-5.5",
     "tier": "premium",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh"
+    ],
     "tool_call": true,
     "cost": {
       "input": 5,
@@ -187,6 +252,10 @@
     "name": "DeepSeek V4 Flash (latest)",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "high",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.14,
@@ -203,6 +272,10 @@
     "name": "DeepSeek V4 Pro (latest)",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "high",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.435,
@@ -219,6 +292,10 @@
     "name": "Fugu Ultra",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "high",
+      "xhigh"
+    ],
     "tool_call": true,
     "cost": {
       "input": 5,
@@ -235,6 +312,11 @@
     "name": "Gemini 3.1 Flash Lite",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.25,
@@ -251,6 +333,11 @@
     "name": "Gemini 3.5 Flash",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1.5,
@@ -267,6 +354,11 @@
     "name": "Gemini 3.5 Flash Lite",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.3,
@@ -283,6 +375,11 @@
     "name": "Gemini 3.6 Flash",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1.5,
@@ -299,6 +396,11 @@
     "name": "Gemini 3.7 Flash",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.75,
@@ -347,6 +449,10 @@
     "name": "GLM-5.2",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "high",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1.4,
@@ -379,6 +485,11 @@
     "name": "GLM-5.3",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "high",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1.4,
@@ -395,6 +506,13 @@
     "name": "GPT-5.6 Luna",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.2,
@@ -412,6 +530,13 @@
     "name": "GPT-5.6 Sol",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 5,
@@ -429,6 +554,13 @@
     "name": "GPT-5.6 Terra",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh",
+      "max"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2,
@@ -446,6 +578,11 @@
     "name": "Grok 4.5",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2,
@@ -462,6 +599,12 @@
     "name": "Grok 4.6",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high",
+      "xhigh"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2,
@@ -831,6 +974,11 @@
     "name": "Qwen 3.8 27B",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "xhigh"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.4,
@@ -847,6 +995,11 @@
     "name": "Qwen 3.8 Max",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "xhigh"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2,
