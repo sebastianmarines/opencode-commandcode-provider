@@ -35,7 +35,7 @@ test("converts user message with string content", () => {
     prompt: [{ role: "user", content: "hello" }],
   }))
   expect(req.params.messages).toHaveLength(1)
-  expect(req.params.messages[0]).toEqual({ role: "user", content: "hello" })
+  expect(req.params.messages[0]).toEqual({ role: "user", content: [{ type: "text", text: "hello" }] })
 })
 
 test("converts user message with array of text parts", () => {
@@ -49,7 +49,10 @@ test("converts user message with array of text parts", () => {
     }],
   }))
   expect(req.params.messages).toHaveLength(1)
-  expect(req.params.messages[0]).toEqual({ role: "user", content: "line1\nline2" })
+  expect(req.params.messages[0]).toEqual({
+    role: "user",
+    content: [{ type: "text", text: "line1\nline2" }],
+  })
 })
 
 test("user message with non-text parts drops them silently", () => {
@@ -63,8 +66,72 @@ test("user message with non-text parts drops them silently", () => {
     }],
   }))
   expect(req.params.messages).toHaveLength(1)
-  const msg = req.params.messages[0] as { role: "user"; content: string }
-  expect(msg.content).toBe("hello")
+  const msg = req.params.messages[0] as { role: "user"; content: unknown[] }
+  expect(msg.content).toEqual([{ type: "text", text: "hello" }])
+})
+
+test("converts user image file part to base64 data url", () => {
+  const req = buildRequest("m", makeOpts({
+    prompt: [{
+      role: "user",
+      content: [
+        { type: "text", text: "what is this?" },
+        {
+          type: "file",
+          mediaType: "image/png",
+          data: new Uint8Array([1, 2, 3]),
+        },
+      ],
+    }],
+  }))
+  expect(req.params.messages).toHaveLength(1)
+  const msg = req.params.messages[0] as { role: "user"; content: unknown[] }
+  expect(msg.content).toHaveLength(2)
+  expect(msg.content[0]).toEqual({ type: "text", text: "what is this?" })
+  const image = msg.content[1] as { type: string; image: string; mimeType: string }
+  expect(image.type).toBe("image")
+  expect(image.mimeType).toBe("image/png")
+  expect(image.image).toBe("data:image/png;base64,AQID")
+})
+
+test("converts user image file part with string data url", () => {
+  const req = buildRequest("m", makeOpts({
+    prompt: [{
+      role: "user",
+      content: [
+        {
+          type: "file",
+          mediaType: "image/jpeg",
+          data: "data:image/jpeg;base64,AAAA",
+        },
+      ],
+    }],
+  }))
+  expect(req.params.messages).toHaveLength(1)
+  const msg = req.params.messages[0] as { role: "user"; content: unknown[] }
+  const image = msg.content[0] as { type: string; image: string; mimeType: string }
+  expect(image.type).toBe("image")
+  expect(image.image).toBe("data:image/jpeg;base64,AAAA")
+  expect(image.mimeType).toBe("image/jpeg")
+})
+
+test("drops non-image file parts", () => {
+  const req = buildRequest("m", makeOpts({
+    prompt: [{
+      role: "user",
+      content: [
+        { type: "text", text: "read this" },
+        {
+          type: "file",
+          mediaType: "application/pdf",
+          data: new Uint8Array([1, 2, 3]),
+        },
+      ],
+    }],
+  }))
+  expect(req.params.messages).toHaveLength(1)
+  const msg = req.params.messages[0] as { role: "user"; content: unknown[] }
+  expect(msg.content).toEqual([{ type: "text", text: "read this" }])
 })
 
 test("converts assistant message with text, reasoning, and tool-call parts", () => {

@@ -3,6 +3,7 @@ import type {
   LanguageModelV3FunctionTool,
   LanguageModelV3Message,
   LanguageModelV3TextPart,
+  LanguageModelV3FilePart,
   LanguageModelV3ReasoningPart,
   LanguageModelV3ToolCallPart,
   LanguageModelV3ToolResultPart,
@@ -10,9 +11,13 @@ import type {
 } from "@ai-sdk/provider"
 
 type CCMessage =
-  | { role: "user"; content: string | unknown[] }
+  | { role: "user"; content: CCUserContent[] }
   | { role: "assistant"; content: CCAssistantContent[] }
   | { role: "tool"; content: CCToolResultContent[] }
+
+type CCUserContent =
+  | { type: "text"; text: string }
+  | { type: "image"; image: string; mimeType: string }
 
 type CCAssistantContent =
   | { type: "text"; text: string }
@@ -83,17 +88,55 @@ function isToolResultPart(p: unknown): p is LanguageModelV3ToolResultPart {
   return hasType(p, "tool-result")
 }
 
-function extractText(content: unknown): string {
-  if (typeof content === "string") return content
-  if (Array.isArray(content)) {
-    const textParts = content.filter(isTextPart) as LanguageModelV3TextPart[]
-    const nonTextParts = content.filter((p) => !isTextPart(p))
-    if (nonTextParts.length > 0 && textParts.length === 0) {
-      console.warn(`Command Code provider: dropped ${nonTextParts.length} non-text part(s) in user message`)
-    }
-    return textParts.map((p) => p.text).join("\n")
+function isFilePart(p: unknown): p is LanguageModelV3FilePart {
+  return hasType(p, "file")
+}
+
+function fileToDataUrl(part: LanguageModelV3FilePart): string | null {
+  const data = part.data
+  if (typeof data === "string") {
+    if (data.startsWith("data:")) return data
+    if (data.startsWith("http://") || data.startsWith("https://")) return data
+    return `data:${part.mediaType};base64,${data}`
   }
-  return ""
+  if (data instanceof Uint8Array) {
+    let binary = ""
+    for (const byte of data) binary += String.fromCharCode(byte)
+    return `data:${part.mediaType};base64,${btoa(binary)}`
+  }
+  if (data instanceof URL) return data.toString()
+  return null
+}
+
+function convertUserContent(content: unknown): CCUserContent[] {
+  const parts: CCUserContent[] = []
+  if (typeof content === "string") {
+    if (content) parts.push({ type: "text", text: content })
+    return parts
+  }
+  if (!Array.isArray(content)) return parts
+
+  let textBuffer = ""
+  const flushText = () => {
+    if (textBuffer) {
+      parts.push({ type: "text", text: textBuffer })
+      textBuffer = ""
+    }
+  }
+
+  for (const part of content) {
+    if (isTextPart(part)) {
+      textBuffer += (textBuffer ? "\n" : "") + part.text
+    } else if (isFilePart(part) && part.mediaType.startsWith("image/")) {
+      const dataUrl = fileToDataUrl(part)
+      if (dataUrl) {
+        flushText()
+        parts.push({ type: "image", image: dataUrl, mimeType: part.mediaType })
+      }
+    }
+  }
+  flushText()
+  return parts
 }
 
 function convertToolResultOutput(output: LanguageModelV3ToolResultOutput): CCToolResultContent["output"] {
@@ -118,8 +161,9 @@ function convertToolResultOutput(output: LanguageModelV3ToolResultOutput): CCToo
 function convertMessage(msg: LanguageModelV3Message): CCMessage | null {
   switch (msg.role) {
     case "user": {
-      const text = extractText(msg.content)
-      return { role: "user", content: text }
+      const content = convertUserContent(msg.content)
+      if (content.length === 0) return null
+      return { role: "user", content }
     }
     case "assistant": {
       const parts: CCAssistantContent[] = []

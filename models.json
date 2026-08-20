@@ -11,6 +11,10 @@
       "xhigh",
       "max"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 10,
@@ -28,6 +32,10 @@
     "name": "Claude Haiku 4.5",
     "tier": "premium",
     "reasoning": false,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1,
@@ -51,6 +59,10 @@
       "high",
       "xhigh",
       "max"
+    ],
+    "inputModalities": [
+      "text",
+      "image"
     ],
     "tool_call": true,
     "cost": {
@@ -76,6 +88,10 @@
       "xhigh",
       "max"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 5,
@@ -99,6 +115,10 @@
       "high",
       "xhigh",
       "max"
+    ],
+    "inputModalities": [
+      "text",
+      "image"
     ],
     "tool_call": true,
     "cost": {
@@ -124,6 +144,10 @@
       "xhigh",
       "max"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 3,
@@ -148,6 +172,10 @@
       "xhigh",
       "max"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2,
@@ -171,6 +199,10 @@
       "high",
       "xhigh"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2,
@@ -193,6 +225,10 @@
       "high",
       "xhigh"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2.5,
@@ -213,6 +249,10 @@
       "low",
       "medium",
       "high"
+    ],
+    "inputModalities": [
+      "text",
+      "image"
     ],
     "tool_call": true,
     "cost": {
@@ -236,6 +276,10 @@
       "high",
       "xhigh"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 5,
@@ -255,6 +299,9 @@
     "reasoningEfforts": [
       "high",
       "max"
+    ],
+    "inputModalities": [
+      "text"
     ],
     "tool_call": true,
     "cost": {
@@ -276,6 +323,9 @@
       "high",
       "max"
     ],
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.435,
@@ -295,6 +345,10 @@
     "reasoningEfforts": [
       "high",
       "xhigh"
+    ],
+    "inputModalities": [
+      "text",
+      "image"
     ],
     "tool_call": true,
     "cost": {
@@ -317,6 +371,10 @@
       "medium",
       "high"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.25,
@@ -337,6 +395,10 @@
       "low",
       "medium",
       "high"
+    ],
+    "inputModalities": [
+      "text",
+      "image"
     ],
     "tool_call": true,
     "cost": {
@@ -359,6 +421,10 @@
       "medium",
       "high"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.3,
@@ -379,6 +445,10 @@
       "low",
       "medium",
       "high"
+    ],
+    "inputModalities": [
+      "text",
+      "image"
     ],
     "tool_call": true,
     "cost": {
@@ -401,6 +471,10 @@
       "medium",
       "high"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.75,
@@ -418,6 +492,9 @@
     "name": "GLM-5",
     "tier": "open-source",
     "reasoning": false,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.95,
@@ -433,6 +510,9 @@
     "name": "GLM-5.1",
     "tier": "open-source",
     "reasoning": false,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1.4,
@@ -453,6 +533,9 @@
       "high",
       "max"
     ],
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1.4,
@@ -469,6 +552,9 @@
     "name": "GLM-5.2 Fast",
     "tier": "open-source",
     "reasoning": false,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 3,
@@ -489,6 +575,9 @@
       "low",
       "high",
       "max"
+    ],
+    "inputModalities": [
+      "text"
     ],
     "tool_call": true,
     "cost": {
@@ -512,6 +601,10 @@
       "high",
       "xhigh",
       "max"
+    ],
+    "inputModalities": [
+      "text",
+      "image"
     ],
     "tool_call": true,
     "cost": {
@@ -537,6 +630,10 @@
       "xhigh",
       "max"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 5,
@@ -561,6 +658,10 @@
       "xhigh",
       "max"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2,
@@ -582,6 +683,10 @@
       "low",
       "medium",
       "high"
+    ],
+    "inputModalities": [
+      "text",
+      "image"
     ],
     "tool_call": true,
     "cost": {
@@ -605,6 +710,9 @@
       "high",
       "xhigh"
     ],
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2,
@@ -621,6 +729,10 @@
     "name": "Inkling",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1,
@@ -637,6 +749,10 @@
     "name": "Inkling Small",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.5,
@@ -653,6 +769,10 @@
     "name": "Kimi K2.5",
     "tier": "open-source",
     "reasoning": false,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.6,
@@ -668,6 +788,10 @@
     "name": "Kimi K2.6",
     "tier": "open-source",
     "reasoning": false,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.95,
@@ -684,6 +808,10 @@
     "name": "Kimi K2.7 Code",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.95,
@@ -700,6 +828,10 @@
     "name": "Kimi K2.7 Code HighSpeed",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1.9,
@@ -716,6 +848,10 @@
     "name": "Kimi K3",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 3,
@@ -732,6 +868,9 @@
     "name": "Laguna S 2.1",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0,
@@ -747,6 +886,10 @@
     "name": "MiMo V2.5",
     "tier": "open-source",
     "reasoning": false,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.14,
@@ -763,6 +906,9 @@
     "name": "MiMo V2.5 Pro",
     "tier": "open-source",
     "reasoning": false,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.435,
@@ -779,6 +925,9 @@
     "name": "MiniMax M2.5",
     "tier": "open-source",
     "reasoning": false,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.5,
@@ -794,6 +943,9 @@
     "name": "MiniMax M2.7",
     "tier": "open-source",
     "reasoning": false,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.3,
@@ -810,6 +962,10 @@
     "name": "MiniMax M3",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.3,
@@ -826,6 +982,10 @@
     "name": "Muse Spark 1.1",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1.25,
@@ -842,6 +1002,10 @@
     "name": "Muse Spark 1.2",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1.25,
@@ -858,6 +1022,10 @@
     "name": "Muse Spark 1.2 Contributor",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.1,
@@ -874,6 +1042,9 @@
     "name": "Nemotron 3 Ultra",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.6,
@@ -890,6 +1061,9 @@
     "name": "Qwen 3.6 Max Preview",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 1.3,
@@ -907,6 +1081,10 @@
     "name": "Qwen 3.6 Plus",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.5,
@@ -923,6 +1101,10 @@
     "name": "Qwen 3.7 Flash",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.03,
@@ -940,6 +1122,9 @@
     "name": "Qwen 3.7 Max",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2.5,
@@ -957,6 +1142,10 @@
     "name": "Qwen 3.7 Plus",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.4,
@@ -979,6 +1168,10 @@
       "medium",
       "xhigh"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.4,
@@ -1000,6 +1193,10 @@
       "medium",
       "xhigh"
     ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 2,
@@ -1017,6 +1214,9 @@
     "name": "Step 3.5 Flash",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.1,
@@ -1033,6 +1233,10 @@
     "name": "Step 3.7 Flash",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.2,
@@ -1049,6 +1253,9 @@
     "name": "Tencent Hy3",
     "tier": "open-source",
     "reasoning": true,
+    "inputModalities": [
+      "text"
+    ],
     "tool_call": true,
     "cost": {
       "input": 0.14,

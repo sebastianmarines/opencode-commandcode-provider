@@ -10,6 +10,8 @@ interface ModelEntry {
   tier: "premium" | "open-source"
   reasoning: boolean
   reasoningEfforts?: string[]
+  inputModalities?: string[]
+  outputModalities?: string[]
   tool_call: boolean
   cost: { input: number; output: number; cache_read?: number; cache_write?: number }
   limit: { context: number; output: number }
@@ -53,9 +55,18 @@ export default async function commandcodePlugin() {
             id: entry.id,
             name: entry.name,
             reasoning: entry.reasoning,
+            attachment: entry.inputModalities?.includes("image") ?? false,
             tool_call: entry.tool_call,
             cost: costObj,
             limit: entry.limit,
+            ...(entry.inputModalities || entry.outputModalities
+              ? {
+                  modalities: {
+                    input: entry.inputModalities ?? ["text"],
+                    output: entry.outputModalities ?? ["text"],
+                  },
+                }
+              : {}),
             ...(entry.reasoningEfforts && entry.reasoningEfforts.length > 0
               ? {
                   variants: Object.fromEntries(

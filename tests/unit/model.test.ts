@@ -76,7 +76,7 @@ test("doStream sends request body with model and messages", async () => {
   const body = JSON.parse(calls[0].options.body as string)
   expect(body.params.model).toBe(MODEL_ID)
   expect(body.params.messages).toHaveLength(1)
-  expect(body.params.messages[0].content).toBe("hi")
+  expect(body.params.messages[0].content).toEqual([{ type: "text", text: "hi" }])
 })
 
 test("doStream uses correct URL", async () => {
