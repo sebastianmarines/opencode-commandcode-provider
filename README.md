@@ -72,6 +72,7 @@ COMMANDCODE_API_KEY=your-key opencode
 | `gpt-5.4-mini`                             | GPT-5.4 Mini                | premium      | yes | 400K   |
 | `gpt-5.5`                                  | GPT-5.5                     | premium      | yes | 400K   |
 | `deepseek/deepseek-v4-flash`               | DeepSeek V4 Flash (latest)  | open-source  | yes | 1M     |
+| `deepseek/deepseek-v4-flash-vision-exp`    | DeepSeek V4 Flash Vision (exp) | open-source  | yes | 1M     |
 | `deepseek/deepseek-v4-pro`                 | DeepSeek V4 Pro (latest)    | open-source  | yes | 1M     |
 | `sakana/fugu-ultra`                        | Fugu Ultra                  | open-source  | yes | 1M     |
 | `google/gemini-3.1-flash-lite`             | Gemini 3.1 Flash Lite       | open-source  | yes | 1M     |

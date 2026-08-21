@@ -315,6 +315,30 @@
     }
   },
   {
+    "id": "deepseek/deepseek-v4-flash-vision-exp",
+    "name": "DeepSeek V4 Flash Vision (exp)",
+    "tier": "open-source",
+    "reasoning": true,
+    "reasoningEfforts": [
+      "high",
+      "max"
+    ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
+    "tool_call": true,
+    "cost": {
+      "input": 0.22,
+      "output": 0.66,
+      "cache_read": 0.01
+    },
+    "limit": {
+      "context": 1000000,
+      "output": 65536
+    }
+  },
+  {
     "id": "deepseek/deepseek-v4-pro",
     "name": "DeepSeek V4 Pro (latest)",
     "tier": "open-source",
@@ -1061,6 +1085,11 @@
     "name": "Ox Alpha",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "high",
+      "max"
+    ],
     "inputModalities": [
       "text",
       "image"
