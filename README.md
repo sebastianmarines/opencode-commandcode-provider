@@ -106,6 +106,7 @@ COMMANDCODE_API_KEY=your-key opencode
 | `meta/muse-spark-1.2`                      | Muse Spark 1.2              | open-source  | yes | 1M     |
 | `meta/muse-spark-1.2-contributor`          | Muse Spark 1.2 Contributor  | open-source  | yes | 1M     |
 | `nvidia/nemotron-3-ultra-550b-a55b`        | Nemotron 3 Ultra            | open-source  | yes | 1M     |
+| `stealth/ox-alpha`                         | Ox Alpha                    | open-source  | yes | 1M     |
 | `Qwen/Qwen3.6-Max-Preview`                 | Qwen 3.6 Max Preview        | open-source  | yes | 1M     |
 | `Qwen/Qwen3.6-Plus`                        | Qwen 3.6 Plus               | open-source  | yes | 1M     |
 | `Qwen/Qwen3.7-Flash`                       | Qwen 3.7 Flash              | open-source  | yes | 1M     |

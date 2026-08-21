@@ -1057,6 +1057,25 @@
     }
   },
   {
+    "id": "stealth/ox-alpha",
+    "name": "Ox Alpha",
+    "tier": "open-source",
+    "reasoning": true,
+    "inputModalities": [
+      "text",
+      "image"
+    ],
+    "tool_call": true,
+    "cost": {
+      "input": 0,
+      "output": 0
+    },
+    "limit": {
+      "context": 1048576,
+      "output": 65536
+    }
+  },
+  {
     "id": "Qwen/Qwen3.6-Max-Preview",
     "name": "Qwen 3.6 Max Preview",
     "tier": "open-source",
