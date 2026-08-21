@@ -70,7 +70,7 @@ COMMANDCODE_API_KEY=your-key opencode
 | `gpt-5.3-codex`                            | GPT-5.3 Codex               | premium      | yes | 400K   |
 | `gpt-5.4`                                  | GPT-5.4                     | premium      | yes | 400K   |
 | `gpt-5.4-mini`                             | GPT-5.4 Mini                | premium      | yes | 400K   |
-| `gpt-5.5`                                  | GPT-5.5                     | premium      | yes | 256K   |
+| `gpt-5.5`                                  | GPT-5.5                     | premium      | yes | 400K   |
 | `deepseek/deepseek-v4-flash`               | DeepSeek V4 Flash (latest)  | open-source  | yes | 1M     |
 | `deepseek/deepseek-v4-pro`                 | DeepSeek V4 Pro (latest)    | open-source  | yes | 1M     |
 | `sakana/fugu-ultra`                        | Fugu Ultra                  | open-source  | yes | 1M     |
