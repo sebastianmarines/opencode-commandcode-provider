@@ -85,6 +85,7 @@ COMMANDCODE_API_KEY=your-key opencode
 | `zai-org/GLM-5.2`                          | GLM-5.2                     | open-source  | yes | 1M     |
 | `zai-org/GLM-5.2-Fast`                     | GLM-5.2 Fast                | open-source  | no  | 1M     |
 | `zai-org/GLM-5.3`                          | GLM-5.3                     | open-source  | yes | 1M     |
+| `z-ai/glm-5.3-flash`                       | GLM-5.3 Flash               | open-source  | yes | 1M     |
 | `gpt-5.6-luna`                             | GPT-5.6 Luna                | open-source  | yes | 1M     |
 | `gpt-5.6-sol`                              | GPT-5.6 Sol                 | open-source  | yes | 1M     |
 | `gpt-5.6-terra`                            | GPT-5.6 Terra               | open-source  | yes | 1M     |
@@ -107,7 +108,6 @@ COMMANDCODE_API_KEY=your-key opencode
 | `meta/muse-spark-1.2`                      | Muse Spark 1.2              | open-source  | yes | 1M     |
 | `meta/muse-spark-1.2-contributor`          | Muse Spark 1.2 Contributor  | open-source  | yes | 1M     |
 | `nvidia/nemotron-3-ultra-550b-a55b`        | Nemotron 3 Ultra            | open-source  | yes | 1M     |
-| `stealth/ox-alpha`                         | Ox Alpha                    | open-source  | yes | 1M     |
 | `Qwen/Qwen3.6-Max-Preview`                 | Qwen 3.6 Max Preview        | open-source  | yes | 1M     |
 | `Qwen/Qwen3.6-Plus`                        | Qwen 3.6 Plus               | open-source  | yes | 1M     |
 | `Qwen/Qwen3.7-Flash`                       | Qwen 3.7 Flash              | open-source  | yes | 1M     |
@@ -118,6 +118,7 @@ COMMANDCODE_API_KEY=your-key opencode
 | `stepfun/Step-3.5-Flash`                   | Step 3.5 Flash              | open-source  | yes | 1M     |
 | `stepfun/Step-3.7-Flash`                   | Step 3.7 Flash              | open-source  | yes | 256K   |
 | `tencent/hy3-paid`                         | Tencent Hy3                 | open-source  | yes | 262K   |
+| `tencent/hy4-preview`                      | Tencent Hy4 Preview         | open-source  | yes | 1M     |
 
 Full model list is maintained in [`models.json`](./models.json). Run `bun run sync` to refresh from the latest Command Code CLI release on npm.
 

@@ -501,10 +501,10 @@
     ],
     "tool_call": true,
     "cost": {
-      "input": 0.75,
-      "output": 3.75,
-      "cache_read": 0.075,
-      "cache_write": 0.04167
+      "input": 1.5,
+      "output": 7.5,
+      "cache_read": 0.15,
+      "cache_write": 0.08334
     },
     "limit": {
       "context": 1048576,
@@ -611,6 +611,31 @@
     },
     "limit": {
       "context": 1000000,
+      "output": 65536
+    }
+  },
+  {
+    "id": "z-ai/glm-5.3-flash",
+    "name": "GLM-5.3 Flash",
+    "tier": "open-source",
+    "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "high",
+      "max"
+    ],
+    "inputModalities": [
+      "text",
+      "image"
+    ],
+    "tool_call": true,
+    "cost": {
+      "input": 0.15,
+      "output": 0.5,
+      "cache_read": 0.03
+    },
+    "limit": {
+      "context": 1048576,
       "output": 65536
     }
   },
@@ -1081,30 +1106,6 @@
     }
   },
   {
-    "id": "stealth/ox-alpha",
-    "name": "Ox Alpha",
-    "tier": "open-source",
-    "reasoning": true,
-    "reasoningEfforts": [
-      "low",
-      "high",
-      "max"
-    ],
-    "inputModalities": [
-      "text",
-      "image"
-    ],
-    "tool_call": true,
-    "cost": {
-      "input": 0,
-      "output": 0
-    },
-    "limit": {
-      "context": 1048576,
-      "output": 65536
-    }
-  },
-  {
     "id": "Qwen/Qwen3.6-Max-Preview",
     "name": "Qwen 3.6 Max Preview",
     "tier": "open-source",
@@ -1312,6 +1313,30 @@
     },
     "limit": {
       "context": 262144,
+      "output": 65536
+    }
+  },
+  {
+    "id": "tencent/hy4-preview",
+    "name": "Tencent Hy4 Preview",
+    "tier": "open-source",
+    "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "inputModalities": [
+      "text"
+    ],
+    "tool_call": true,
+    "cost": {
+      "input": 0.834,
+      "output": 2.501,
+      "cache_read": 0.042
+    },
+    "limit": {
+      "context": 1048576,
       "output": 65536
     }
   }
