@@ -897,6 +897,11 @@
     "name": "Kimi K3",
     "tier": "open-source",
     "reasoning": true,
+    "reasoningEfforts": [
+      "low",
+      "high",
+      "max"
+    ],
     "inputModalities": [
       "text",
       "image"
