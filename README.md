@@ -81,6 +81,7 @@ COMMANDCODE_API_KEY=your-key opencode
 | `google/gemini-3.5-flash-lite`             | Gemini 3.5 Flash Lite       | open-source  | yes | 1M     |
 | `google/gemini-3.6-flash`                  | Gemini 3.6 Flash            | open-source  | yes | 1M     |
 | `google/gemini-3.7-flash`                  | Gemini 3.7 Flash            | open-source  | yes | 1M     |
+| `google/gemini-3.8-flash`                  | Gemini 3.8 Flash            | open-source  | yes | 1M     |
 | `zai-org/GLM-5`                            | GLM-5                       | open-source  | no  | 200K   |
 | `zai-org/GLM-5.1`                          | GLM-5.1                     | open-source  | no  | 200K   |
 | `zai-org/GLM-5.2`                          | GLM-5.2                     | open-source  | yes | 1M     |
